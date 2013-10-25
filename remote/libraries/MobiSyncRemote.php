@@ -8,7 +8,7 @@
  * @version 1.0
  */
 ini_set('display_startup_errors', 1);
-include 'MobiCore.php';
+include '../../libraries/MobiCore.php';
 class MobiSync 
 {
 
@@ -88,26 +88,18 @@ class MobiSync
     public function getLocalData()
     {
         $tables = array();
-        $survey_tables = array();
         $output = '';
         // Grab all active survey ids
         $db = $this->local_db_instance;
-        $prep = $db->prepare( 'select sid from surveys where active = "Y"' );
+        $prep = $db->prepare( 'show tables' );
         $prep->execute();
         while ( $records = $prep->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
         {
             $tables[] = $records[0];
         }
         
-        // Populate all active survey tables
-        foreach ( $tables as $id)
-        {
-            $survey_tables[] = 'survey_'.$id;
-        }
-        
-        
         // Extract table data
-        foreach ( $survey_tables as $table )
+        foreach ( $tables as $table )
         {
             
             $query = 'select * from '.$table;
@@ -217,36 +209,13 @@ class MobiSync
         }
         
         return $output;
-        
     }
     
-
-    /**
-     * Transfer exported local data to remote server as raw txt for processing
-     * @param string $action Name of controller action to send request to
-     * @return string Returns 'success' on success and error details on error
-     */
-    public function moveData()
+    public function getColumnDataType( $meta )
     {
-        $data = $this->getLocalData();
-        $url = $this->core_object->api_base_url.'/data_upload';
-        $re = $this->core_object->transmit( $url, $data );
-        
-        if ( $re == 'success' )
-        {
-            return true;
-        }
-        else 
-        {
-            $this->err = $re;
-            return false;
-        }
+        return $meta['native_type'];
     }
     
-    public function clearLocalData() 
-    {
-        $qr = 'TRUNCATE TABLE ';
-    }
 }
 
 $test = new MobiSync();
