@@ -1,0 +1,17 @@
+API Interface definitions 
+
+Receiving from local
+-> data_upload
+    @Parameters
+        -> array > sql query string
+    @Return
+    ->success   > success
+    ->error     > detail error message
+
+->validate_account
+    @Parameters
+        -> account_id, terminal_key
+    @Return
+    ->success   > valid
+    ->error     > status = decommissioned, inactive_account, 
+    
