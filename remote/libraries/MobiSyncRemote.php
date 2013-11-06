@@ -85,7 +85,7 @@ class MobiSync
      * 
      * @return string Returns a string of SQL insert statements for transmission to remote server
      */
-    public function getLocalData()
+    public function getRemoteData()
     {
         $tables = array();
         $output = '';
@@ -110,7 +110,7 @@ class MobiSync
             
             if ( $row_count > 0 )
             {
-                $table_data = 'INSERT INTO '.$table.' VALUES ';
+                $table_data = '<br />INSERT INTO '.$table.' VALUES ';
                 $counter = 0;
                 
                 while ( $row = $qr->fetch( PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT ) )
@@ -162,6 +162,7 @@ class MobiSync
                                     $val = (int)$row[$i];
                                     if($val)
                                     {
+                                        // last column of first row in atable
                                         $row_data .= $row[$i].'), ';
                                     }
                                     else 
@@ -182,24 +183,24 @@ class MobiSync
                                    $val = (int)$row[$i];
                                     if($val)
                                     {
-                                    $row_data .= $row[$i].'), ';
+                                    $row_data .= $row[$i].') ';
                                     }
                                     else 
                                     {
-                                        $row_data .= '"'.$row[$i].'"), ';
+                                        $row_data .= '"'.$row[$i].'") ';
                                     }
                                 }
                                 else 
                                 {
-                                    $row_data .= 'NULL)';
+                                    $row_data .= 'NULL';
                                 }
                             }
                         }
                     }
 
                     // Append row data to table data
+                  
                     $table_data .= $row_data;
-
                     $counter++;
                 }
             }
