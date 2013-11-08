@@ -22,7 +22,7 @@ class MobiSync
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-        print_r($this->getLocalData());
+        print_r($this->getRemoteData());
     }
     
     /**
@@ -88,6 +88,7 @@ class MobiSync
     public function getRemoteData()
     {
         $tables = array();
+        $survey_tables = array();
         $output = '';
         // Grab all active survey ids
         $db = $this->local_db_instance;
@@ -97,6 +98,13 @@ class MobiSync
         {
             $tables[] = $records[0];
         }
+        
+        // Populate all active survey tables
+//        foreach ( $tables as $id)
+//        {
+//            $survey_tables[] = 'survey_'.$id;
+//        }
+        
         
         // Extract table data
         foreach ( $tables as $table )
@@ -110,7 +118,7 @@ class MobiSync
             
             if ( $row_count > 0 )
             {
-                $table_data = '<br />INSERT INTO '.$table.' VALUES ';
+                $table_data = 'INSERT INTO '.$table.' VALUES ';
                 $counter = 0;
                 
                 while ( $row = $qr->fetch( PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT ) )
@@ -162,7 +170,6 @@ class MobiSync
                                     $val = (int)$row[$i];
                                     if($val)
                                     {
-                                        // last column of first row in atable
                                         $row_data .= $row[$i].'), ';
                                     }
                                     else 
@@ -183,34 +190,41 @@ class MobiSync
                                    $val = (int)$row[$i];
                                     if($val)
                                     {
-                                    $row_data .= $row[$i].') ';
+                                    $row_data .= $row[$i].'), ';
                                     }
                                     else 
                                     {
-                                        $row_data .= '"'.$row[$i].'") ';
+                                        $row_data .= '"'.$row[$i].'"), ';
                                     }
                                 }
                                 else 
                                 {
-                                    $row_data .= 'NULL';
+                                    $row_data .= 'NULL)';
                                 }
                             }
                         }
                     }
 
                     // Append row data to table data
-                  
                     $table_data .= $row_data;
+
                     $counter++;
                 }
             }
             
             // Append table data to output stream
-            $output[] = mb_substr($table_data, 0, -2);
+            if(strlen($table_data) > 10)
+            {
+                $output .= mb_substr($table_data, 0, -2)."; ";
+            }
+            
         }
         
+        
         return $output;
+        
     }
+    
     
     public function getColumnDataType( $meta )
     {
