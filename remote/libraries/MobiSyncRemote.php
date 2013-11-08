@@ -7,9 +7,8 @@
  * @copyright (c) 2013, All Rights Reserved
  * @version 1.0
  */
-ini_set('display_startup_errors', 1);
-include '../../libraries/MobiCore.php';
-class MobiSync 
+
+class MobiSyncRemote
 {
 
     public $local_db_instance;
@@ -232,5 +231,3 @@ class MobiSync
     }
     
 }
-
-$test = new MobiSync();

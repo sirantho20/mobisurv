@@ -22,7 +22,14 @@ class MobiSync
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-        print_r($this->getLocalData());
+        if($r = $this->moveData())
+        {
+            echo $r;
+        }
+        else 
+        {
+            echo $this->err;
+        }
     }
     
     /**
@@ -228,8 +235,8 @@ class MobiSync
      */
     public function moveData()
     {
-        $data = $this->getLocalData();
-        $url = $this->core_object->api_base_url.'/data_upload';
+        $data = array('action'=>'data_upload', 'value'=>$this->getLocalData());
+        $url = $this->core_object->api_base_url;
         $re = $this->core_object->transmit( $url, $data );
         
         if ( $re == 'success' )

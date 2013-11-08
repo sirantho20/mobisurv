@@ -11,13 +11,15 @@
  *
  * @author tony
  */
-class GateWay {
+
+if(isset($_POST))
+{
+    $action = filter_input(INPUT_POST, 'action');
     
-    public function __construct() 
+    switch ($action)
     {
-        $record = $_POST['name'];
-        echo 'Welcome, '.$record;
+        case 'data_upload':
+            echo 'I got this data: '.$_POST['value'][0];
+            break;
     }
 }
-
-$gt = new GateWay();
