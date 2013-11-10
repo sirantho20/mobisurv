@@ -14,4 +14,6 @@ Receiving from local
     @Return
     ->success   > valid
     ->error     > status = decommissioned, inactive_account, 
+
+->get_update
     

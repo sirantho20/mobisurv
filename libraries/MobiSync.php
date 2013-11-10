@@ -22,14 +22,14 @@ class MobiSync
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-        if($r = $this->moveData())
-        {
-            echo $r;
-        }
-        else 
-        {
-            echo $this->err;
-        }
+//        if($r = $this->moveData())
+//        {
+//            echo $r;
+//        }
+//        else 
+//        {
+//            echo $this->err;
+//        }
     }
     
     /**
@@ -254,6 +254,18 @@ class MobiSync
     {
         $qr = 'TRUNCATE TABLE ';
     }
+    
+    public function getRemoteUpdate()
+    {
+        $remote_data = $this->core_object->transmit($this->core_object->api_base_url, array('action'=>'get_update'));
+        
+        if($remote_data)
+        {
+            return $remote_data;
+        }
+        else 
+        {
+            return $this->core_object->err;
+        }
+    }
 }
-
-$test = new MobiSync();

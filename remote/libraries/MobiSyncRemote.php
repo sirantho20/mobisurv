@@ -7,6 +7,8 @@
  * @copyright (c) 2013, All Rights Reserved
  * @version 1.0
  */
+ini_set('display_startup_errors', 1);
+include 'MobiCore.php';
 
 class MobiSyncRemote
 {
@@ -21,7 +23,7 @@ class MobiSyncRemote
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-        print_r($this->getRemoteData());
+        //var_dump($this->getRemoteData());
     }
     
     /**
@@ -98,11 +100,6 @@ class MobiSyncRemote
             $tables[] = $records[0];
         }
         
-        // Populate all active survey tables
-//        foreach ( $tables as $id)
-//        {
-//            $survey_tables[] = 'survey_'.$id;
-//        }
         
         
         // Extract table data
@@ -231,3 +228,6 @@ class MobiSyncRemote
     }
     
 }
+
+//$t = new MobiSyncRemote();
+//echo $t->getRemoteData();

@@ -13,6 +13,9 @@ return array(
     'terminal_email' => 'sirantho20@gmail.com',
     'terminal_key' => 'DEFAULTKEY',
     
+     // API settings
+    'api_base_url' => 'http://localhost/mobisurv/v1/GateWay.php',
+    
     //Local db details
     'local_db_host' => 'localhost',
     'local_db_name' => 'lime',
@@ -26,7 +29,6 @@ return array(
     'remote_db_password' => 'Remotes3kr3t',
     'remote_db_type' => 'dblib',
     
-    // API settings
-    'api_base_url' => 'http://localhost/mobisurv/v1/GateWay.php',
-    
 );
+
+?>
