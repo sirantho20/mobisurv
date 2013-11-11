@@ -23,12 +23,11 @@ if(isset($_POST))
     switch ($action)
     {
         case 'data_upload':
-            echo 'I got this data: '.$_POST['value'][0];
+            $data = $_POST['value'][0];
             break;
         
         case 'get_update':
             
-            include '../remote/libraries/MobiSyncRemote.php';
             echo $obj->getRemoteData();
             break;
     }

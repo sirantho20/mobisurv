@@ -23,7 +23,7 @@ class MobiSyncRemote
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-        //var_dump($this->getRemoteData());
+        var_dump($this->getRemoteData());
     }
     
     /**
@@ -209,7 +209,7 @@ class MobiSyncRemote
             }
             
             // Append table data to output stream
-            if(strlen($table_data) > 10)
+            if(strlen(@$table_data) > 10)
             {
                 $output .= mb_substr($table_data, 0, -2)."; ";
             }
@@ -229,5 +229,5 @@ class MobiSyncRemote
     
 }
 
-//$t = new MobiSyncRemote();
+$t = new MobiSyncRemote();
 //echo $t->getRemoteData();

@@ -22,14 +22,7 @@ class MobiSync
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-//        if($r = $this->moveData())
-//        {
-//            echo $r;
-//        }
-//        else 
-//        {
-//            echo $this->err;
-//        }
+        
     }
     
     /**
@@ -255,13 +248,31 @@ class MobiSync
         $qr = 'TRUNCATE TABLE ';
     }
     
+    /**
+     * Get all data data from remote server
+     * @return string SQL insert statements to be executed on local database server
+     */
     public function getRemoteUpdate()
     {
         $remote_data = $this->core_object->transmit($this->core_object->api_base_url, array('action'=>'get_update'));
         
         if($remote_data)
         {
-            return $remote_data;
+            
+            
+            try 
+            {
+                $db = $this->local_db_instance;
+                $prep = $db->prepare( $remote_data );
+                $prep->execute();
+                
+                return true;
+            } 
+            catch (Exception $ex) 
+            {
+                $this->err = $ex->getMessage();
+                return false;
+            }
         }
         else 
         {

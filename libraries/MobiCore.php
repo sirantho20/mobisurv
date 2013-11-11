@@ -36,7 +36,7 @@ class MobiCore {
     
     private function loadConfig()
     {
-        $config = include ('main.php');
+        $config = include ('/config/main.php');
         
         foreach ( $config as $key => $value )
         {
