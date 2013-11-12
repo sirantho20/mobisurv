@@ -255,11 +255,9 @@ class MobiSync
     public function getRemoteUpdate()
     {
         $remote_data = $this->core_object->transmit($this->core_object->api_base_url, array('action'=>'get_update'));
-        
+        echo $remote_data;die();
         if($remote_data)
         {
-            
-            echo $remote_data;die();
             
             try 
             {
