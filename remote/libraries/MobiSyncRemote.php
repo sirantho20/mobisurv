@@ -92,7 +92,7 @@ class MobiSyncRemote
         $do = shell_exec($qr);
         
         $file = fopen('tmp.sql', 'r');
-        $output = fread($file, filesize('tmp.sql'));
+        $output = fread($file, 8000);
         fclose($file);
         //unlink(dirname(__FILE__).DIRECTORY_SEPARATOR.'tmp.sql');
         
