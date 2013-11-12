@@ -91,8 +91,8 @@ class MobiSyncRemote
         $qr = 'mysqldump -uroot -pAFtony19833 lime > /var/www/mobisurv/tmp.sql';
         $do = shell_exec($qr);
         
-        $file = fopen('/var/www/mobisurv/tmp.sql', 'r');
-        $output = fread($file, filesize('/var/www/mobisurv/tmp.sql'));
+        $file = fopen('tmp.sql', 'r');
+        $output = fread($file, filesize('tmp.sql'));
         fclose($file);
         //unlink(dirname(__FILE__).DIRECTORY_SEPARATOR.'tmp.sql');
         
