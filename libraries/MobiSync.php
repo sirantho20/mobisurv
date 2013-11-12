@@ -259,7 +259,8 @@ class MobiSync
         if($remote_data)
         {
             
-            print_r($remote_data);
+            echo $remote_data;die();
+            
             try 
             {
                 $db = $this->local_db_instance;
