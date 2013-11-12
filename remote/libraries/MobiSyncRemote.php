@@ -23,7 +23,7 @@ class MobiSyncRemote
         $this->core_object = new MobiCore();
         $this->local_db_instance = $this->createInstance( 'local' );
         //$this->remote_db_instance = $this->createInstance( 'remote' );
-        var_dump($this->getRemoteData());
+        //var_dump($this->getRemoteData());
     }
     
     /**
@@ -240,5 +240,5 @@ class MobiSyncRemote
     
 }
 
-$t = new MobiSyncRemote();
+//$t = new MobiSyncRemote();
 //echo $t->getRemoteData();
