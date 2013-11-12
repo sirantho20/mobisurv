@@ -90,11 +90,10 @@ class MobiSyncRemote
     {
         $qr = 'mysqldump -uroot -pAFtony19833 lime';
         
-        $re = array();
+        $t = passthru($qr, $output);
         
-        passthru($qr, $result);
+        return $output;
         
-        return $result;
         
         $tables = array();
         $survey_tables = array();
