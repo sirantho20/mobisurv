@@ -14,7 +14,7 @@ return array(
     'terminal_key' => 'DEFAULTKEY',
     
      // API settings
-    'api_base_url' => 'http://localhost/mobisurv/v1/GateWay.php',
+    'api_base_url' => 'http://mobisurv.softcube.co/v1/GateWay.php',
     
     //Local db details
     'local_db_host' => 'localhost',

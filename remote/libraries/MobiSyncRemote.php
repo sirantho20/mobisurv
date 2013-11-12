@@ -90,7 +90,8 @@ class MobiSyncRemote
     {
         $qr = 'mysqldump -uroot -pAFtony19833 lime';
         
-        $re = shell_exec($qr);
+        exec($qr,$re);
+        
         return $re;
         
         $tables = array();

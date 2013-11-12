@@ -10,9 +10,9 @@ if(isset($_GET))
     {
         case 'update':
             $obj = new MobiSync();
-            if($obj->getRemoteUpdate())
+            if($re = $obj->getRemoteUpdate())
             {
-                echo 'Successful';
+                echo $re;
             }
             else 
             {
