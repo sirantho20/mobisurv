@@ -88,9 +88,15 @@ class MobiSyncRemote
      */
     public function getRemoteData()
     {
-        $qr = 'mysqldump -uroot -pAFtony19833 lime';
-        
-        passthru($qr, $output);
+        $qr = 'mysqldump -uroot -pAFtony19833 lime > /var/www/mobisurv/tmp.sql';
+
+        exec($qr);
+
+        $file = fopen('/var/www/mobisurv/tmp.sql', 'r');
+
+        $content = fread($file, 10000);
+        return $content;
+
         
 //        
 //        $tables = array();

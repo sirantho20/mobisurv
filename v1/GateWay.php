@@ -27,10 +27,7 @@ if(isset($_POST))
             break;
         
         case 'get_update':
-            
-            $qr = 'mysqldump -uroot -pAFtony19833 lime';
-        
-            passthru($qr);
+            echo $obj->getRemoteData();
             break;
         
         default :
