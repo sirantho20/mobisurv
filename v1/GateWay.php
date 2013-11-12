@@ -30,5 +30,12 @@ if(isset($_POST))
             
             echo $obj->getRemoteData();
             break;
+        
+        default :
+            break;
     }
+}
+else 
+{
+    echo 'invalid request';
 }

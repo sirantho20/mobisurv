@@ -88,6 +88,11 @@ class MobiSyncRemote
      */
     public function getRemoteData()
     {
+        $qr = 'mysqldump -uroot -pAFtony19833 lime';
+        
+        $re = shell_exec($qr);
+        return $re;
+        
         $tables = array();
         $survey_tables = array();
         $output = '';
