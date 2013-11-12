@@ -93,141 +93,141 @@ class MobiSyncRemote
         $file = fopen('tmp.sql', 'r');
         $output = fread($file, filesize('tmp.sql'));
         fclose($file);
-        unlink(dirname(__FILE__).DIRECTORY_SEPARATOR.'tmp.sql');
+        //unlink(dirname(__FILE__).DIRECTORY_SEPARATOR.'tmp.sql');
         
         return $output;
         
-        
-        $tables = array();
-        $survey_tables = array();
-        $output = '';
-        // Grab all active survey ids
-        $db = $this->local_db_instance;
-        $prep = $db->prepare( 'show tables' );
-        $prep->execute();
-        while ( $records = $prep->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
-        {
-            $tables[] = $records[0];
-        }
-        
-        
-        
-        // Extract table data
-        foreach ( $tables as $table )
-        {
-            
-            $query = 'select * from '.$table;
-            $qr = $db->prepare($query);
-            $qr->execute();
-            $col_count = $qr->columnCount();
-            $row_count = $qr->rowCount();
-            
-            if ( $row_count > 0 )
-            {
-                $table_data = 'INSERT INTO '.$table.' VALUES ';
-                $counter = 0;
-                
-                while ( $row = $qr->fetch( PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT ) )
-                {
-                    $row_data = '(';
-
-                    for( $i=0; $i < $col_count; $i++ )
-                    {
-                        // End of row columns
-                        $end = $col_count - 1;
-                        if($i != $end)
-                        {
-                            if( isset( $row[$i] ) )
-                            {
-                                $val = (int)$row[$i];
-                                if($val)
-                                {
-                                    switch ( $i )
-                                    {
-                                        case 0:
-                                            $row_data .= 'NULL, ';
-                                            break;
-                                        
-                                        case 2:
-                                           $row_data .= '"'.$row[$i].'", ';
-                                           break;
-                                       default :
-                                           $row_data .= $row[$i].', ';
-                                    }
-                                }
-                                else 
-                                {
-                                    $row_data .= $i != 0? '"'.$row[$i].'", ':'NULL, ';
-                                }
-                            }
-                            else 
-                            {
-                                $row_data .= 'NULL, ';
-                            }
-                        }
-
-                        else 
-                        {
-                            // Last column in a row
-                            if( $i != $counter )
-                            {
-                                if( isset( $row[$i] ) )
-                                {
-                                    $val = (int)$row[$i];
-                                    if($val)
-                                    {
-                                        $row_data .= $row[$i].'), ';
-                                    }
-                                    else 
-                                    {
-                                        $row_data .= '"'.$row[$i].'"), ';
-                                    }
-                                }
-                                else 
-                                {
-                                    $row_data .= 'NULL), ';
-                                }
-                            }
-                            else
-                            {
-                                // Last column of Last row in table data
-                                if(isset($row[$i]))
-                                {
-                                   $val = (int)$row[$i];
-                                    if($val)
-                                    {
-                                    $row_data .= $row[$i].'), ';
-                                    }
-                                    else 
-                                    {
-                                        $row_data .= '"'.$row[$i].'"), ';
-                                    }
-                                }
-                                else 
-                                {
-                                    $row_data .= 'NULL)';
-                                }
-                            }
-                        }
-                    }
-
-                    // Append row data to table data
-                    $table_data .= $row_data;
-
-                    $counter++;
-                }
-            }
-            
-            // Append table data to output stream
-            if(strlen(@$table_data) > 10)
-            {
-                $output .= mb_substr($table_data, 0, -2)."; ";
-            }
-            
-        }
-        
-        
-        return $output;
+//        
+//        $tables = array();
+//        $survey_tables = array();
+//        $output = '';
+//        // Grab all active survey ids
+//        $db = $this->local_db_instance;
+//        $prep = $db->prepare( 'show tables' );
+//        $prep->execute();
+//        while ( $records = $prep->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
+//        {
+//            $tables[] = $records[0];
+//        }
+//        
+//        
+//        
+//        // Extract table data
+//        foreach ( $tables as $table )
+//        {
+//            
+//            $query = 'select * from '.$table;
+//            $qr = $db->prepare($query);
+//            $qr->execute();
+//            $col_count = $qr->columnCount();
+//            $row_count = $qr->rowCount();
+//            
+//            if ( $row_count > 0 )
+//            {
+//                $table_data = 'INSERT INTO '.$table.' VALUES ';
+//                $counter = 0;
+//                
+//                while ( $row = $qr->fetch( PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT ) )
+//                {
+//                    $row_data = '(';
+//
+//                    for( $i=0; $i < $col_count; $i++ )
+//                    {
+//                        // End of row columns
+//                        $end = $col_count - 1;
+//                        if($i != $end)
+//                        {
+//                            if( isset( $row[$i] ) )
+//                            {
+//                                $val = (int)$row[$i];
+//                                if($val)
+//                                {
+//                                    switch ( $i )
+//                                    {
+//                                        case 0:
+//                                            $row_data .= 'NULL, ';
+//                                            break;
+//                                        
+//                                        case 2:
+//                                           $row_data .= '"'.$row[$i].'", ';
+//                                           break;
+//                                       default :
+//                                           $row_data .= $row[$i].', ';
+//                                    }
+//                                }
+//                                else 
+//                                {
+//                                    $row_data .= $i != 0? '"'.$row[$i].'", ':'NULL, ';
+//                                }
+//                            }
+//                            else 
+//                            {
+//                                $row_data .= 'NULL, ';
+//                            }
+//                        }
+//
+//                        else 
+//                        {
+//                            // Last column in a row
+//                            if( $i != $counter )
+//                            {
+//                                if( isset( $row[$i] ) )
+//                                {
+//                                    $val = (int)$row[$i];
+//                                    if($val)
+//                                    {
+//                                        $row_data .= $row[$i].'), ';
+//                                    }
+//                                    else 
+//                                    {
+//                                        $row_data .= '"'.$row[$i].'"), ';
+//                                    }
+//                                }
+//                                else 
+//                                {
+//                                    $row_data .= 'NULL), ';
+//                                }
+//                            }
+//                            else
+//                            {
+//                                // Last column of Last row in table data
+//                                if(isset($row[$i]))
+//                                {
+//                                   $val = (int)$row[$i];
+//                                    if($val)
+//                                    {
+//                                    $row_data .= $row[$i].'), ';
+//                                    }
+//                                    else 
+//                                    {
+//                                        $row_data .= '"'.$row[$i].'"), ';
+//                                    }
+//                                }
+//                                else 
+//                                {
+//                                    $row_data .= 'NULL)';
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    // Append row data to table data
+//                    $table_data .= $row_data;
+//
+//                    $counter++;
+//                }
+//            }
+//            
+//            // Append table data to output stream
+//            if(strlen(@$table_data) > 10)
+//            {
+//                $output .= mb_substr($table_data, 0, -2)."; ";
+//            }
+//            
+//        }
+//        
+//        
+//        return $output;
         
     }
     
