@@ -258,7 +258,7 @@ class MobiSync
         
         if($remote_data)
         {
-            
+            echo $remote_data;die();
             
             try 
             {

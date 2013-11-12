@@ -94,7 +94,7 @@ class MobiSyncRemote
         
         exec($qr,$re);
         
-        return $re;
+        var_dump($re);die();
         
         $tables = array();
         $survey_tables = array();
