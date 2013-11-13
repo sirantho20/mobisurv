@@ -116,9 +116,12 @@ class MobiSync
             $col_count = $qr->columnCount();
             $row_count = $qr->rowCount();
             
+            
             if ( $row_count > 0 )
             {
-                $table_data = 'INSERT INTO '.$table.' VALUES ';
+                $create_stmt = $this->getTableDefinitionSQL($table)."; ";
+                
+                $table_data = $create_stmt.'INSERT INTO '.$table.' VALUES ';
                 $counter = 0;
                 
                 while ( $row = $qr->fetch( PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT ) )
@@ -254,18 +257,18 @@ class MobiSync
      */
     public function getRemoteUpdate()
     {
+        $db = $this->local_db_instance;
         $remote_data = $this->core_object->transmit($this->core_object->api_base_url, array('action'=>'get_update'));
-        echo $remote_data;die();
+        
         if($remote_data)
         {
             
             try 
             {
-                $db = $this->local_db_instance;
                 $prep = $db->prepare( $remote_data );
                 $prep->execute();
                 
-                return true;
+                return $remote_data;
             } 
             catch (Exception $ex) 
             {
@@ -278,4 +281,31 @@ class MobiSync
             return $this->core_object->err;
         }
     }
+    
+    public function getTableDefinitionSQL($table)
+    {
+        try 
+        {
+        $db = $this->local_db_instance;
+        
+        $qr = "SHOW CREATE TABLE ".$table;
+        
+        $query = $db->prepare($qr);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        $drop = "DROP TABLE IF EXISTS ".$table."; ";
+        
+        return $drop.$result[0]['Create Table'];
+        
+        } 
+        catch (Exception $ex) 
+        {
+            echo $ex->getMessage();
+            return false;
+        }
+        
+    }
 }
+
+

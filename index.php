@@ -12,7 +12,7 @@ if(isset($_GET))
             $obj = new MobiSync();
             if($re = $obj->getRemoteUpdate())
             {
-                 //echo $re;
+                 echo $re;
             }
             else 
             {

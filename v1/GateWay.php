@@ -27,6 +27,7 @@ if(isset($_POST))
             break;
         
         case 'get_update':
+            
             echo $obj->getRemoteData();
             break;
         
