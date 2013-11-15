@@ -268,7 +268,7 @@ class MobiSync
                 $prep = $db->prepare( $remote_data );
                 $prep->execute();
                 
-                return $remote_data;
+                return true;
             } 
             catch (Exception $ex) 
             {

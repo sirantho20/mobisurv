@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 120);
 require 'libraries/MobiSync.php';
 
 if(isset($_GET))
@@ -12,7 +12,7 @@ if(isset($_GET))
             $obj = new MobiSync();
             if($re = $obj->getRemoteUpdate())
             {
-                 echo $re;
+                 echo 'Update completed successfully';
             }
             else 
             {
