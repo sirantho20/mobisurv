@@ -236,6 +236,7 @@ class MobiSync
         
         if ( $re == 'success' )
         {
+            $this->clearLocalData($sid);
             
             return true;
         }
@@ -245,16 +246,38 @@ class MobiSync
             return false;
         }
     }
-    
-    public function clearLocalData() 
+    /**
+     * Clear tables after uploading data to server
+     * @param int Survey ID of the table to celar
+     */
+    public function clearLocalData( $sid ) 
     {
-        $qr = 'TRUNCATE TABLE ';
+        $db = $this->local_db_instance;
+        
+        if( $sid == '' )
+        {
+            $tables = $this->getSurveyTables();
+        }
+        else 
+        {
+            $tables = array( 'survey_'.$sid );
+        }
+            
+        foreach( $tables as $table )
+        {
+            
+            $qr = $db->prepare( "TRUNCATE TABLE ".$table );
+            $qr->execute();
+            
+        }
+        
     }
     
     /**
      * Get all data data from remote server
      * @return string SQL insert statements to be executed on local database server
      */
+    
     public function getRemoteUpdate()
     {
         $db = $this->local_db_instance;
@@ -269,7 +292,7 @@ class MobiSync
                 $prep->execute();
                 
                 return true;
-            } 
+            }
             catch (Exception $ex) 
             {
                 $this->err = $ex->getMessage();
@@ -282,23 +305,29 @@ class MobiSync
         }
     }
     
+    /**
+     * Get table definition SQL
+     * @param string Name of table to get DDL for
+     * @return string Get SQL for table creation
+     */
+    
     public function getTableDefinitionSQL($table)
     {
         try 
         {
-        $db = $this->local_db_instance;
+            $db = $this->local_db_instance;
+
+            $qr = "SHOW CREATE TABLE ".$table;
+
+            $query = $db->prepare($qr);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $drop = "DROP TABLE IF EXISTS ".$table."; ";
+
+            return $drop.$result[0]['Create Table'];
         
-        $qr = "SHOW CREATE TABLE ".$table;
-        
-        $query = $db->prepare($qr);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        
-        $drop = "DROP TABLE IF EXISTS ".$table."; ";
-        
-        return $drop.$result[0]['Create Table'];
-        
-        } 
+        }
         catch (Exception $ex) 
         {
             echo $ex->getMessage();
