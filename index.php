@@ -22,9 +22,11 @@ if(isset($_GET))
             
         case 'push':
             
-            if( $obj->moveData() )
+            $sid = filter_input(INPUT_GET, 'sid');
+            
+            if( $obj->moveData($sid) )
             {
-                
+                //print_r($re);
                 echo 'Data successfully published to server';
             }
             else 

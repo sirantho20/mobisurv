@@ -99,12 +99,12 @@ class MobiSync
      * 
      * @return string Returns a string of SQL insert statements for transmission to remote server
      */
-    public function getLocalData()
+    public function getLocalData($sid)
     {
         $output = '';
         $db = $this->local_db_instance;
         // Extract table data
-        $survey_tables = $this->getSurveyTables();
+        $survey_tables = array('survey_'.$sid);
         
         foreach ( $survey_tables as $table )
         {
@@ -228,9 +228,9 @@ class MobiSync
      * @param string $action Name of controller action to send request to
      * @return string Returns 'success' on success and error details on error
      */
-    public function moveData()
+    public function moveData($sid)
     {
-        $data = array('action'=>'data_upload', 'value'=>$this->getLocalData());
+        $data = array('action'=>'data_upload', 'value'=>$this->getLocalData($sid));
         $url = $this->core_object->api_base_url;
         $re = $this->core_object->transmit( $url, $data );
         
