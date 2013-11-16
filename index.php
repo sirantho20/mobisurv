@@ -5,12 +5,12 @@ require 'libraries/MobiSync.php';
 if(isset($_GET))
 {
     $action = filter_input(INPUT_GET, 'action');
-    
+    $obj = new MobiSync();
     switch ($action)
     {
         case 'update':
-            $obj = new MobiSync();
-            if($re = $obj->getRemoteUpdate())
+            
+            if( $obj->getRemoteUpdate() )
             {
                  echo 'Update completed successfully';
             }
@@ -18,6 +18,14 @@ if(isset($_GET))
             {
                 echo $obj->err;
             }
+            break;
+            
+        case 'push':
+            if( $obj->moveData() )
+            {
+                echo 'Data successfully published to server';
+            }
+            
             
     }
 }

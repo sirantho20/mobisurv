@@ -80,6 +80,20 @@ class MobiSync
         return $instance;
     }
     
+    public function getSurveyTables()
+    {
+        $tables = array();
+        $db = $this->local_db_instance;
+        $prep = $db->prepare( 'select sid from surveys where active = "Y"' );
+        $prep->execute();
+        while ( $records = $prep->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
+        {
+            $tables[] = 'survey_'.$records[0];
+        }
+        
+        return $tables;
+    }
+
     /**
      * Gets all local survey answer records to uploaded to remote serer
      * 
@@ -87,26 +101,11 @@ class MobiSync
      */
     public function getLocalData()
     {
-        $tables = array();
-        $survey_tables = array();
         $output = '';
-        // Grab all active survey ids
-        $db = $this->local_db_instance;
-        $prep = $db->prepare( 'select sid from surveys where active = "Y"' );
-        $prep->execute();
-        while ( $records = $prep->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
-        {
-            $tables[] = $records[0];
-        }
-        
-        // Populate all active survey tables
-        foreach ( $tables as $id)
-        {
-            $survey_tables[] = 'survey_'.$id;
-        }
-        
         
         // Extract table data
+        $survey_tables = $this->getSurveyTables();
+        
         foreach ( $survey_tables as $table )
         {
             
