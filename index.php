@@ -22,11 +22,10 @@ if(isset($_GET))
             
         case 'push':
             
-            if( $re = $obj->moveData() )
+            if( $obj->moveData() )
             {
-                echo $re;
                 
-                //echo 'Data successfully published to server';
+                echo 'Data successfully published to server';
             }
             else 
             {

@@ -148,7 +148,7 @@ class MobiSync
                                            $row_data .= '"'.$row[$i].'", ';
                                            break;
                                        default :
-                                           $row_data .= $row[$i].', ';
+                                           $row_data .= '"'.$row[$i].'", ';
                                     }
                                 }
                                 else 
@@ -172,7 +172,7 @@ class MobiSync
                                     $val = (int)$row[$i];
                                     if($val)
                                     {
-                                        $row_data .= $row[$i].'), ';
+                                        $row_data .= '"'.$row[$i].'"), ';
                                     }
                                     else 
                                     {
@@ -192,7 +192,7 @@ class MobiSync
                                    $val = (int)$row[$i];
                                     if($val)
                                     {
-                                    $row_data .= $row[$i].'), ';
+                                    $row_data .= '"'.$row[$i].'"), ';
                                     }
                                     else 
                                     {
@@ -236,8 +236,8 @@ class MobiSync
         
         if ( $re == 'success' )
         {
-            return $re;
-            //return true;
+            
+            return true;
         }
         else 
         {
