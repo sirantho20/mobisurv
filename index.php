@@ -21,9 +21,15 @@ if(isset($_GET))
             break;
             
         case 'push':
+            
             if( $obj->moveData() )
             {
+                
                 echo 'Data successfully published to server';
+            }
+            else 
+            {
+                echo $obj->err;
             }
             
             

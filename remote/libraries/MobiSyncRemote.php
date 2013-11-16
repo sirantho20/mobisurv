@@ -232,7 +232,26 @@ class MobiSyncRemote
         return $meta['native_type'];
     }
     
-    public function getTableDefinitionSQL($table)
+    public function updateRemoteData($data)
+    {
+        try 
+        {
+            $db = $this->local_db_instance;
+            $qr = $db->prepare( $data );
+            $qr->execute();
+            
+            return true;
+        } 
+        catch (Exception $ex) 
+        {
+            $this->err = $ex->getMessage();
+            
+            return false;
+        }
+
+    }
+
+        public function getTableDefinitionSQL($table)
     {
         try 
         {

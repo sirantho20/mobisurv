@@ -24,6 +24,15 @@ if(isset($_POST))
     {
         case 'data_upload':
             $data = $_POST['value'][0];
+            if( $obj->updateRemoteData($data))
+            {
+                echo 'success';
+            }
+            else 
+            {
+                echo $obj->err;
+            }
+            
             break;
         
         case 'get_update':

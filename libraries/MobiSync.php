@@ -102,7 +102,7 @@ class MobiSync
     public function getLocalData()
     {
         $output = '';
-        
+        $db = $this->local_db_instance;
         // Extract table data
         $survey_tables = $this->getSurveyTables();
         
