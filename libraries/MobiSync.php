@@ -118,9 +118,9 @@ class MobiSync
             
             if ( $row_count > 0 )
             {
-                $create_stmt = $this->getTableDefinitionSQL($table)."; ";
+                //$create_stmt = $this->getTableDefinitionSQL($table)."; ";
                 
-                $table_data = $create_stmt.'INSERT INTO '.$table.' VALUES ';
+                $table_data = 'INSERT INTO '.$table.' VALUES ';
                 $counter = 0;
                 
                 while ( $row = $qr->fetch( PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT ) )
@@ -236,7 +236,8 @@ class MobiSync
         
         if ( $re == 'success' )
         {
-            return true;
+            return $re;
+            //return true;
         }
         else 
         {

@@ -26,7 +26,8 @@ if(isset($_POST))
             $data = $_POST['value'][0];
             if( $obj->updateRemoteData($data))
             {
-                echo 'success';
+                echo $data;
+              //  echo 'success';
             }
             else 
             {
