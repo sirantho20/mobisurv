@@ -65,7 +65,7 @@ class MobiCore {
             $dir_old = getcwd();
             if($phar->extractTo('tmp',NULL,true))
             {
-                $this->copyr('tmp/mobisurv',$dir_old);
+                $this->copyr('tmp/mobisurv', 'tmp');
                 
                 chdir('tmp');
                 unlink('update.tar');
