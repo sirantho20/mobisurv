@@ -10,6 +10,7 @@ return array(
     
     //Account Details
     'account_id' => '1192',
+    'account_name' => 'Bureau of Social & Market Research',
     'terminal_email' => 'sirantho20@gmail.com',
     'terminal_key' => 'DEFAULTKEY',
     

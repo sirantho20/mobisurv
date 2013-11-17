@@ -93,6 +93,64 @@ class MobiSync
         
         return $tables;
     }
+    /**
+     * Gets the list of all survey ids belonging to active surveys
+     * @return array A collection of survey id of all active surveys
+     */
+    public function getActiveSurveys()
+    {
+        $output = array();
+        $db = $this->local_db_instance;
+        $qr = $db->prepare( "select sid from surveys where active = 'Y'");
+        $qr->execute();
+        while ( $records = $qr->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
+        {
+            $cur = $records[0];
+            $qr2 = $db->prepare( 'select surveyls_title from surveys_languagesettings where surveyls_survey_id = '.$cur);
+            $qr2->execute();
+            $res = $qr2->fetchAll();
+            $out = $res[0][0];
+            $output[] = array($records[0], $out);
+        }
+        
+        return $output;
+    }
+    
+    /**
+     * Get summary statistics of survey
+     * @param int Survey ID of the survey to get stats for
+     * @return array Number total, incomplete and complete responses to the survey 
+     */
+    public function getSurveyStats($sid)
+    {
+        $db = $this->local_db_instance;
+        $table = 'survey_'.$sid;
+        $qr1 = $db->prepare( "select * from ".$table);
+        $qr1->execute();
+        $total = $qr1->rowCount();
+        
+        $qr2 = $db->prepare( 'select * from '.$table.' where submitdate is null');
+        $qr2->execute();
+        $incomplete = $qr2->rowCount();
+        
+        $complete = $total - $incomplete;
+        
+        return array('total'=>$total, 'incomplete'=>$incomplete, 'complete'=>$complete);
+        
+    }
+    
+    /**
+     * Get browser accessible url for survey. This function uses the hostname and port number of server hosting limesurvey
+     * @param int Survey Id of the survey to build url for
+     * @return string complete url of the survey
+     */
+    public function getSurveyUrl($sid)
+    {
+        $hostname = $_SERVER['SERVER_ADDR'];
+        $port = $_SERVER['SERVER_PORT'];
+        
+        return 'http://'.$hostname.':'.$port.'/index.php/'.$sid.'/lang-en';
+    }
 
     /**
      * Gets all local survey answer records to uploaded to remote serer

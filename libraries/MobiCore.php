@@ -24,10 +24,13 @@ class MobiCore {
     public $account_id;
     public $terminal_email;
     public $terminal_key;
+    public $account_name;
+    
 
 
     public function __construct()
     {
+        echo getcwd(); die();
         // Load configuration settings
         $this->loadConfig();
         //echo $this->transmit( $this->api_base_url, array('name' => 'Anthony Afetsrom', 'email' => 'sirantho20@gmail.com'));
@@ -47,7 +50,13 @@ class MobiCore {
         }
     }
     
-    /**
+    public static function getAccountName()
+    {
+        $conf = include 'config/main.php';
+        return $conf['account_name'];
+    }
+
+        /**
      * Transmit data between local and remote instances.
      * @param type $url
      * @param type $data
