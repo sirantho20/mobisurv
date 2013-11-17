@@ -25,19 +25,105 @@ class MobiCore {
     public $terminal_email;
     public $terminal_key;
     public $account_name;
-    
+    public $update_archive_url;
+
+
 
 
     public function __construct()
     {
-        echo getcwd(); die();
+        //echo getcwd(); die();
         // Load configuration settings
         $this->loadConfig();
         //echo $this->transmit( $this->api_base_url, array('name' => 'Anthony Afetsrom', 'email' => 'sirantho20@gmail.com'));
         //die($this->api_base_url);
     }
     
-    private function loadConfig()
+    public function sourceUpdate()
+    {
+        $download_url = $this->transmit($this->api_base_url, array('action'=>'request_source_update'));
+        $path = 'tmp/update.tar';
+        
+        $fp = fopen($path, 'w');
+ 
+        $ch = curl_init($download_url);
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+
+        curl_exec($ch);
+        
+        if( curl_errno( $ch ) )
+        {
+            $this->err = curl_error( $ch );
+            return false;
+        }
+        else 
+        {
+            curl_close($ch);
+            fclose($fp);
+            
+            $phar = new PharData('tmp/update.tar');
+            $dir_old = getcwd();
+            if($phar->extractTo('tmp',NULL,true))
+            {
+                $this->copyr('tmp/mobisurv',$dir_old);
+                
+                chdir('tmp');
+                unlink('update.tar');
+                $this->rrmdir('mobisurv');
+                chdir($dir_old);
+            }
+
+            
+
+
+        }
+    }
+    /**
+     * Resursively remote a directory and its content
+     * @param string $dir Directory to delete 
+     */
+    public function rrmdir($dir) 
+    {
+        if (is_dir($dir)) {
+          $objects = scandir($dir);
+          foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+              if (filetype($dir."/".$object) == "dir") $this->rrmdir($dir."/".$object); else unlink($dir."/".$object);
+            }
+          }
+          reset($objects);
+          rmdir($dir);
+        }
+    }
+    
+    /**
+     * Recursively copy content from source to destination
+     * @param string $source Source to copy from
+     * @param string $dest Destination to copy from
+     */
+    public function copyr($source, $dest)
+    {
+        
+        if(is_dir($source)) {
+            $dir_handle=opendir($source);
+            while($file=readdir($dir_handle)){
+                if($file!="." && $file!=".."){
+                    if(is_dir($source."/".$file)){
+                        @mkdir($dest."/".$file);
+                        $this->copyr($source."/".$file, $dest."/".$file);
+                    } else {
+                        copy($source."/".$file, $dest."/".$file);
+                    }
+                }
+            }
+            closedir($dir_handle);
+        } else {
+            copy($source, $dest);
+        }
+    
+    }
+
+        private function loadConfig()
     {
         $config = include ('config/main.php');
         

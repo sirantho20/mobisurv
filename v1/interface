@@ -16,4 +16,11 @@ Receiving from local
     ->error     > status = decommissioned, inactive_account, 
 
 ->get_update
+
+->request_source_update
+    @param
+        ->account_id
+        ->terminal_id
+    @Return
+        ->update_archive_url
     

@@ -28,6 +28,6 @@ return array(
     'remote_db_type' => 'dblib',
     
     // API settings
-    'api_base_url' => 'http://mobisurv.softcube.co/v1/GateWay.php',
+    'api_base_url' => 'http://localhost/mobisurv/v1/GateWay.php',//'http://mobisurv.softcube.co/v1/GateWay.php',
     
 );
