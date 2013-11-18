@@ -74,10 +74,11 @@ class MobiCore {
                 unlink('update.tar');
                 $this->rrmdir('mobisurv');
                 chdir($dir_old);
+                return TRUE;
             }
 
             
-
+            
 
         }
         }

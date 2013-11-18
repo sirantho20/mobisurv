@@ -14,6 +14,7 @@ if(isset($_GET))
             
             if( $obj->getRemoteUpdate() )
             {
+                $obj->core_object->sourceUpdate();
                  echo 'Update completed successfully';
             }
             else 
