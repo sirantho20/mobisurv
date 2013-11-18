@@ -346,10 +346,21 @@ class MobiSync
             
             try 
             {
-                $prep = $db->prepare( $remote_data );
-                $prep->execute();
-                
-                return true;
+                $con = new mysqli($this->core_object->local_db_host, $this->core_object->local_db_user, $this->core_object->local_db_password, $this->core_object->local_db_name);
+                $qr = $con->query( $remote_data );
+                if( $qr )
+                {
+                    echo 'works';
+                }
+                else 
+                {
+                    echo $con->error.'<br /><br />'.$remote_data;
+                }
+                die();
+//                $prep = $db->query( $remote_data );
+//                $prep->execute();
+//                //echo $remote_data; die();
+//                return true;
             }
             catch (Exception $ex) 
             {

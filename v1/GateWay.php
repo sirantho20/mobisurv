@@ -40,7 +40,8 @@ if(isset($_POST))
         case 'get_update':
             
             //echo $obj->getRemoteData();
-            passthru('mysqldump -uroot -pAFtony19833 --skip-comments lime');
+            //$ignore = '--ignore-table=lime.users';
+            passthru('mysqldump -uroot -pAFtony19833 --compact lime');
             break;
         
         case 'request_source_update':
