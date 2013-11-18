@@ -42,6 +42,8 @@ class MobiCore {
     public function sourceUpdate()
     {
         $download_url = $this->transmit($this->api_base_url, array('action'=>'request_source_update'));
+        if($download_url != 'no')
+        {
         $path = 'tmp/update.tar';
         
         $fp = fopen($path, 'w');
@@ -76,6 +78,7 @@ class MobiCore {
             
 
 
+        }
         }
     }
     /**

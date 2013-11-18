@@ -45,7 +45,7 @@ if(isset($_POST))
             break;
         
         case 'request_source_update':
-            echo 'http://localhost/mobisurv.tar';
+            echo 'no';//'http://localhost/mobisurv.tar';
             break;
         
         default :
