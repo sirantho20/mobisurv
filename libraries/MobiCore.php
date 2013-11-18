@@ -42,6 +42,7 @@ class MobiCore {
     public function sourceUpdate()
     {
         $download_url = $this->transmit($this->api_base_url, array('action'=>'request_source_update'));
+        
         if($download_url != 'no')
         {
         $path = 'tmp/update.tar';
@@ -154,6 +155,9 @@ class MobiCore {
     public function transmit( $url, $data )
     {
         //return $data['action'];die();
+        $det = array('account_id' => $this->account_id, 'terminal_key' => $this->terminal_key);
+        $data1 = array_merge($det, $data);
+        
         $comm = curl_init(); 
         curl_setopt( $comm, CURLOPT_URL, $url ); 
         curl_setopt( $comm, CURLOPT_VERBOSE, 0 ); 
@@ -161,7 +165,7 @@ class MobiCore {
         curl_setopt( $comm, CURLOPT_POST, TRUE ); 
         curl_setopt( $comm, CURLOPT_SSL_VERIFYPEER, 0 ); 
         curl_setopt( $comm, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt( $comm, CURLOPT_POSTFIELDS, http_build_query( $data ) );
+        curl_setopt( $comm, CURLOPT_POSTFIELDS, http_build_query( $data1 ) );
         //var_dump(curl_getinfo($comm)); die();
         $result = curl_exec( $comm );
         
