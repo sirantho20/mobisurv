@@ -15,10 +15,26 @@ $surv = $obj->getActiveSurveys();
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            
+    $(document).ready(function(){
+        $('#remoteUpdate').click(function(){
+            $.ajax({
+                type:'GET',
+                url: 'entry.php',
+                data: { action: 'update'},
+                beforeSend: function(){
+                    $('#loadingImg').css('visibility','visible');
+                },
+                success: function(data){
+                    $('#loadingImg').css('visibility','hidden');
+                    alert(data);
+                },
+                
+                
+            });
         });
+    });
     </script>
     </head>
     <body>
@@ -61,8 +77,8 @@ $surv = $obj->getActiveSurveys();
         <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
   <p class="navbar-text">
   <ul class="pager">
-      <li><a class="alert-success" href="#"><span class="glyphicon glyphicon-download"></span> Download Updates</a></li> 
-      <img src="img/loading.gif" style="width: 30px; height: 30px;" />
+      <li><a id="remoteUpdate" class="alert-success" href="#"><span class="glyphicon glyphicon-download"></span> Download Updates</a></li> 
+      <img id="loadingImg" src="img/loading.gif" style="width: 30px; height: 30px; visibility: hidden;" />
 </ul>
 
   </p>

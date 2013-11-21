@@ -1,6 +1,6 @@
 <?php
 
-include 'libraries/MobiCore.php';
+include 'libraries/MobiSync.php';
 
-$core = new MobiCore();
-$core->sourceUpdate();
+$core = new MobiSync();
+$core->getRemoteUpdate();
