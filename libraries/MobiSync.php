@@ -287,7 +287,7 @@ class MobiSync
      */
     public function setUp()
     {
-        $conn = new PDO('mysql:host=localhost;dbname=INFORMATION_SCHEMA','root','AFtony19833');
+        $conn = new PDO('mysql:host=localhost;dbname=INFORMATION_SCHEMA','root','adminadmin');
         $qr = $conn->prepare('SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :db ');
         $qr->bindParam(':db', $this->core_object->local_db_name);
         $qr->execute();
