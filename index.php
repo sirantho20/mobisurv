@@ -3,7 +3,7 @@
 include 'libraries/MobiSync.php';
 $obj = new MobiSync();
 $surv = $obj->getActiveSurveys();
-
+    
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +29,7 @@ $surv = $obj->getActiveSurveys();
                 success: function(data){
                     $('#loadingImg').css('visibility','hidden');
                     alert(data);
+                    location.reload();
                 },
                 
                 
@@ -64,11 +65,6 @@ $surv = $obj->getActiveSurveys();
                         echo '<a href="details.php?sid='.$sid.'" class="list-group-item"><span class="badge">'.$total.'</span>'.$title.'</a>';
                     }
                     ?>
-                    <a href="#" class="list-group-item"><span class="badge">42</span>Cras justo odio</a>
-                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                    <a href="#" class="list-group-item">Morbi leo risus</a>
-                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                    <a href="#" class="list-group-item">Vestibulum at eros</a>
                  </div>
             </div>
             </div>

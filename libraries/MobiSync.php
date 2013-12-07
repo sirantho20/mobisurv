@@ -20,7 +20,9 @@ class MobiSync
     public function __construct()
     {
         $this->core_object = new MobiCore();
+        $this->setUp();
         $this->local_db_instance = $this->createInstance( 'local' );
+        
         //$this->remote_db_instance = $this->createInstance( 'remote' );
         
     }
@@ -149,7 +151,7 @@ class MobiSync
         $hostname = $_SERVER['SERVER_ADDR'];
         $port = $_SERVER['SERVER_PORT'];
         
-        return 'http://'.$hostname.':'.$port.'/index.php/'.$sid.'/lang-en';
+        return 'http://'.'localhost'.':'.$port.'/survey/index.php/'.$sid.'/lang-en';
     }
 
     /**
@@ -279,7 +281,40 @@ class MobiSync
         return $output;
         
     }
-    
+    /**
+     * Sets up and prepares database for first time run of the application on terminal
+     * 
+     */
+    public function setUp()
+    {
+        $conn = new PDO('mysql:host=localhost;dbname=INFORMATION_SCHEMA','root','AFtony19833');
+        $qr = $conn->prepare('SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :db ');
+        $qr->bindParam(':db', $this->core_object->local_db_name);
+        $qr->execute();
+        
+        //echo $qr->queryString;        die();
+        
+        $re = $qr->rowCount();
+        
+        if ( $re > 0 )
+        {
+            
+        }
+        else
+        {
+            $db = $this->core_object->local_db_name;
+            $cqr = $conn->prepare('create database '.$db);
+            $cqr->execute();
+            
+            $user = $this->core_object->local_db_user;
+            $host = $this->core_object->local_db_host;
+            $pword = $this->core_object->local_db_password;
+            
+            $gqr = $conn->prepare("grant all on $db.* to $user@'$host' identified by '$pword'");
+            
+            $gqr->execute();
+        }
+    }
 
     /**
      * Transfer exported local data to remote server as raw txt for processing

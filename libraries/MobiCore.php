@@ -37,6 +37,18 @@ class MobiCore {
         $this->loadConfig();
         //echo $this->transmit( $this->api_base_url, array('name' => 'Anthony Afetsrom', 'email' => 'sirantho20@gmail.com'));
         //die($this->api_base_url);
+        
+        $SID = session_id(); 
+        if(empty($SID))
+        {
+            session_start();
+        }
+
+        $_SESSION['account_name'] = MobiCore::getAccountName();
+        $_SESSION['db_name'] = $this->local_db_name;
+        $_SESSION['db_user'] = $this->local_db_user;
+        $_SESSION['db_password'] = $this->local_db_password;
+        $_SESSION['db_host'] = $this->local_db_host;
     }
     
     public function sourceUpdate()

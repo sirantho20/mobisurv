@@ -26,7 +26,21 @@ $url = $obj->getSurveyUrl($sid);
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            
+            $('#uploadSurveyData').click(function(){
+                $.ajax({
+                type:'GET',
+                url: 'entry.php',
+                data: { action: 'push', sid: '<?php echo $sid; ?>'},
+                beforeSend: function(){
+                    $('#loadingImg').css('visibility','visible');
+                },
+                success: function(data){
+                    $('#loadingImg').css('visibility','hidden');
+                    alert(data);
+                    location.reload();
+                }
+            });
+            });
         });
     </script>
     </head>
@@ -58,7 +72,7 @@ $url = $obj->getSurveyUrl($sid);
   <ul class="pager">
   <li><a href="index.php"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
   <li><a class="alert-success" href="<?php echo $url; ?>"><span class="glyphicon glyphicon-play-circle"></span> Start Survey</a></li>
-  <li><a class="alert-warning" href="<?php echo $url; ?>"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>
+  <li><a id="uploadSurveyData" class="alert-warning" href="<?php echo $url; ?>"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>
 </ul>
 
   </p>

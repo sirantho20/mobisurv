@@ -16,9 +16,9 @@ return array(
     
     //Local db details
     'local_db_host' => 'localhost',
-    'local_db_name' => 'lime',
-    'local_db_user' => 'root',
-    'local_db_password' => 'AFtony19833',
+    'local_db_name' => 'mobisurv',
+    'local_db_user' => 'mobiSurv',
+    'local_db_password' => 'MobiSurvP@ssword!',
     
     //Remote Db details
     'remote_db_host' => '80.241.221.140',
