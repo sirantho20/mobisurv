@@ -37,7 +37,7 @@ $url = $obj->getSurveyUrl($sid);
                 success: function(data){
                     $('#loadingImg').css('visibility','hidden');
                     alert(data);
-                    location.reload();
+                    window.location = "index.php";
                 }
             });
             });

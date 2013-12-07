@@ -88,8 +88,10 @@ class MobiSync
         $db = $this->local_db_instance;
         $prep = $db->prepare( 'select sid from surveys where active = "Y"' );
         $prep->execute();
+        
         while ( $records = $prep->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
         {
+            
             $tables[] = 'survey_'.$records[0];
         }
         
@@ -287,7 +289,7 @@ class MobiSync
      */
     public function setUp()
     {
-        $conn = new PDO('mysql:host=localhost;dbname=INFORMATION_SCHEMA','root','adminadmin');
+        $conn = new PDO('mysql:host=localhost;dbname=INFORMATION_SCHEMA','root','AFtony19833');
         $qr = $conn->prepare('SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :db ');
         $qr->bindParam(':db', $this->core_object->local_db_name);
         $qr->execute();
@@ -383,6 +385,18 @@ class MobiSync
             {
                 $prep = $db->query( $remote_data );
                 $prep->execute();
+                
+                $active = $db->prepare("select sid from surveys where active = 'Y'");
+                $active->execute();
+                
+                while ( $records = $active->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
+                { 
+                    echo $records[0];
+                }
+                
+                // truncate answers table
+//                $ans = $db->query ( 'truncate table answers' );
+//                $ans->execute();
                 
                 
                 return true;
