@@ -17,13 +17,15 @@ class MobiSync
     public $terminal_email;
     public $core_object;
     public $err;
+    public $surveyTables;
     public function __construct()
     {
         $this->core_object = new MobiCore();
         $this->setUp();
         $this->local_db_instance = $this->createInstance( 'local' );
         
-        //$this->remote_db_instance = $this->createInstance( 'remote' );
+        $this->surveyTables = $this->getSurveyTables();
+        
         
     }
     
@@ -383,20 +385,25 @@ class MobiSync
             
             try 
             {
+                foreach ($this->surveyTables as $table)
+                {
+                    $remote_data .= 'truncate table '.$table.'; ';
+                }
+                
                 $prep = $db->query( $remote_data );
                 $prep->execute();
                 
-                $active = $db->prepare("select sid from surveys where active = 'Y'");
-                $active->execute();
+//                $active = $db->prepare("select sid from surveys where active = 'Y'");
+//                $active->execute();
+//                
+//                while ( $records = $active->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
+//                { 
+//                    echo $records[0];
+//                }
                 
-                while ( $records = $active->fetch(PDO::FETCH_BOTH, PDO::FETCH_ORI_NEXT) )
-                { 
-                    echo $records[0];
-                }
+                // truncate survey records table
+//                
                 
-                // truncate answers table
-//                $ans = $db->query ( 'truncate table answers' );
-//                $ans->execute();
                 
                 
                 return true;
